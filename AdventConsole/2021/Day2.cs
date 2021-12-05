@@ -9,9 +9,9 @@ namespace AdventCode
         private static IEnumerable<(string, int)> input = InputReader.ReadLines("Day2.txt")
             .Select(line => { var splitted = line.Split(' '); return (splitted[0], Convert.ToInt32(splitted[1])); });
 
-        public class Puzzle1 : IPuzzle<int>
+        public class Puzzle1 : IPuzzleDay<int>
         {
-            public int CalculateAnswer()
+            public int CalculateAnswerPuzzle1()
             {
                 int length = input.Where(line => line.Item1 == "forward").Sum(line => line.Item2);
                 int depth = input.Where(line => line.Item1 == "down").Sum(line => line.Item2);
@@ -19,11 +19,8 @@ namespace AdventCode
 
                 return length * depth;
             }
-        }
 
-        public class Puzzle2 : IPuzzle<int>
-        {
-            public int CalculateAnswer()
+            public int CalculateAnswerPuzzle2()
             {
                 int length = 0, depth = 0, aim = 0;
 

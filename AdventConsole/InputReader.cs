@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace AdventCode
 {
     public static class InputReader
     {
-        private const string inputFolder = "2021/Inputs";
-
-        public static IEnumerable<string> ReadLines(string fileName) => File.ReadAllLines($"{inputFolder}/{fileName}");
+        public static string ReadString(string fileName) => File.ReadAllText(@$"2021\Inputs\{fileName}");
+        public static IEnumerable<string> ReadLines(string fileName) => File.ReadAllLines(@$"2021\Inputs\{fileName}");
     }
 }

@@ -4,56 +4,50 @@ using System.Linq;
 
 namespace AdventCode
 {
-    public class Day3
+    public class Day3 : IPuzzleDay<int>
     {
-        private static IEnumerable<BitArray> input = InputReader.ReadLines("Day3.txt")
+        private IEnumerable<BitArray> input = InputReader.ReadLines("Day3.txt")
             .Select(line => new BitArray(line.Select(c => c == '1').ToArray()));
 
-        public class Puzzle1 : IPuzzle<int>
+        public int CalculateAnswerPuzzle1()
         {
-            public int CalculateAnswer()
+            var nrArrays = input.Count();
+            var nrBits = input.First().Length;
+
+            var gamma_rate = new BitArray(nrBits);
+
+            for (var i = 0; i < nrBits; i++)
             {
-                var nrArrays = input.Count();
-                var nrBits = input.First().Length;
-
-                var gamma_rate = new BitArray(nrBits);
-
-                for(var i = 0; i < nrBits; i++)
-                {
-                    var truesCount = input.Select(bits => bits[i]).Count(v => v);
-                    gamma_rate[i] = truesCount >= nrArrays / 2 ? true : false;
-                }
-
-                return gamma_rate.AsInt32() * gamma_rate.Not().AsInt32();
+                var truesCount = input.Select(bits => bits[i]).Count(v => v);
+                gamma_rate[i] = truesCount >= nrArrays / 2 ? true : false;
             }
+
+            return gamma_rate.AsInt32() * gamma_rate.Not().AsInt32();
         }
 
-        public class Puzzle2 : IPuzzle<int>
+        public int CalculateAnswerPuzzle2()
         {
-            public int CalculateAnswer()
+            var oxygen_generator_rating = FilterInputData(input.ToArray(), true, true);
+            var co2_scrubber_rating = FilterInputData(input.ToArray(), false, false);
+
+            return oxygen_generator_rating.AsInt32() * co2_scrubber_rating.AsInt32();
+        }
+
+        private BitArray FilterInputData(BitArray[] data, bool useMostCommonValue, bool onEqualValue, int index = 0)
+        {
+            if (data.Count() > 1)
             {
-                var oxygen_generator_rating = FilterInputData(input.ToArray(), true, true);
-                var co2_scrubber_rating = FilterInputData(input.ToArray(), false, false);
+                var truesCount = data.Select(bits => bits[index]).Count(v => v);
 
-                return oxygen_generator_rating.AsInt32() * co2_scrubber_rating.AsInt32();
+                var filterValue = truesCount == data.Count() / 2D ? onEqualValue :
+                                    truesCount > data.Count() / 2D ? useMostCommonValue :
+                                    !useMostCommonValue;
+
+                data = data.Where(bits => bits[index] == filterValue).ToArray();
+
+                return FilterInputData(data, useMostCommonValue, onEqualValue, ++index);
             }
-
-            private BitArray FilterInputData(BitArray[] data, bool useMostCommonValue, bool onEqualValue, int index = 0)
-            {
-                if (data.Count() > 1)
-                {
-                    var truesCount = data.Select(bits => bits[index]).Count(v => v);
-
-                    var filterValue = truesCount == data.Count() / 2D ? onEqualValue :
-                                        truesCount > data.Count() / 2D ? useMostCommonValue :
-                                        !useMostCommonValue;
-
-                    data = data.Where(bits => bits[index] == filterValue).ToArray();
-
-                    return FilterInputData(data, useMostCommonValue, onEqualValue, ++index);
-                }
-                return data.Single();
-            }
+            return data.Single();
         }
     }
 }

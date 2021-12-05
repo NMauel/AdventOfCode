@@ -7,13 +7,19 @@ namespace AdventCode
     {
         static void Main(string[] args)
         {
-            var puzzle = new Day3.Puzzle2();
+            var puzzle = new Day4();
 
             var stopwatch = Stopwatch.StartNew();
-            var answer = puzzle.CalculateAnswer();
+            var answer = puzzle.CalculateAnswerPuzzle1();
             stopwatch.Stop();
 
-            Console.WriteLine($"The answer: {answer}, took {stopwatch.ElapsedMilliseconds}ms ({ stopwatch.GetElapsedNanoseconds() } ns)");
+            Console.WriteLine($"The answer of puzzle1: {answer}, took {stopwatch.ElapsedMilliseconds}ms ({ stopwatch.GetElapsedNanoseconds() } ns)");
+
+            stopwatch.Restart();
+            answer = puzzle.CalculateAnswerPuzzle2();
+            stopwatch.Stop();
+
+            Console.WriteLine($"The answer of puzzle2: {answer}, took {stopwatch.ElapsedMilliseconds}ms ({ stopwatch.GetElapsedNanoseconds() } ns)");
         }
     }
 

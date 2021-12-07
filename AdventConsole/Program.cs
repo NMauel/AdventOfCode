@@ -7,7 +7,7 @@ namespace AdventCode
     {
         static void Main(string[] args)
         {
-            var puzzle = new Day4();
+            var puzzle = new Day6();
 
             var stopwatch = Stopwatch.StartNew();
             var answer = puzzle.CalculateAnswerPuzzle1();

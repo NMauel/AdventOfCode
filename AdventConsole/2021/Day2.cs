@@ -6,7 +6,7 @@ namespace AdventCode
 {
     public class Day2
     {
-        private static IEnumerable<(string, int)> input = InputReader.ReadLines("Day2.txt")
+        private static readonly IEnumerable<(string, int)> input = InputReader.ReadLines("Day2.txt")
             .Select(line => { var splitted = line.Split(' '); return (splitted[0], Convert.ToInt32(splitted[1])); });
 
         public class Puzzle1 : IPuzzleDay<int>

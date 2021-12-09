@@ -5,7 +5,7 @@ namespace AdventCode
 {
     public class Day6 : IPuzzleDay<ulong>
     {
-        private IEnumerable<short> input = InputReader.ReadString("Day6.txt").Split(',').Select(short.Parse);
+        private readonly IEnumerable<short> input = InputReader.ReadString("Day6.txt").Split(',').Select(short.Parse);
 
         public ulong CalculateAnswerPuzzle1() => new FishRegister(input).SleepOvernight(80).Sum();
         public ulong CalculateAnswerPuzzle2() => new FishRegister(input).SleepOvernight(256).Sum();

@@ -6,7 +6,7 @@ namespace AdventCode
 {
     public class Day3 : IPuzzleDay<int>
     {
-        private IEnumerable<BitArray> input = InputReader.ReadLines("Day3.txt")
+        private readonly IEnumerable<BitArray> input = InputReader.ReadLines("Day3.txt")
             .Select(line => new BitArray(line.Select(c => c == '1').ToArray()));
 
         public int CalculateAnswerPuzzle1()

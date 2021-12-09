@@ -6,8 +6,8 @@ namespace AdventCode
 {
     public class Day4 : IPuzzleDay<int>
     {
-        private IEnumerable<int> numbers = InputReader.ReadString("Day4_B.txt").Split(',').Select(int.Parse);
-        private BingoCard[] cards = InputReader.ReadString("Day4_A.txt").Split("\r\n\r\n")
+        private readonly IEnumerable<int> numbers = InputReader.ReadString("Day4_B.txt").Split(',').Select(int.Parse);
+        private readonly BingoCard[] cards = InputReader.ReadString("Day4_A.txt").Split("\r\n\r\n")
             .Select(card => new BingoCard(card.Split("\r\n")
             .Select(line => line.Split(' ', StringSplitOptions.RemoveEmptyEntries)
             .Select(int.Parse)))).ToArray();

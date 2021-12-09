@@ -6,7 +6,7 @@ namespace AdventCode
 {
     public class Day7 : IPuzzleDay<int>
     {
-        private IEnumerable<int> input = InputReader.ReadString("Day7.txt").Split(',').Select(int.Parse);
+        private readonly IEnumerable<int> input = InputReader.ReadString("Day7.txt").Split(',').Select(int.Parse);
 
         public int CalculateAnswerPuzzle1()
         {

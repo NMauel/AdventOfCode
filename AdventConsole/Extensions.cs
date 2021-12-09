@@ -55,5 +55,17 @@ namespace AdventCode
 
             return a;
         }
+
+        /// <summary>
+        /// Will return the multiplication of all incoming integers.
+        /// Note: Supports only integers for now
+        /// </summary>
+        public static int Multiply(this IEnumerable<int> items)
+        {
+            var output = 1;
+            foreach (var i in items)
+                output *= i;
+            return output;
+        }
     }
 }

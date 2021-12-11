@@ -5,7 +5,7 @@ namespace AdventCode
 {
     public class Day10 : IPuzzleDay<long>
     {
-        public IEnumerable<char[]> input = InputReader.ReadLines("Day10.txt").Select(s => s.Select(c => c).ToArray());
+        private readonly IEnumerable<char[]> input = InputReader.ReadLines("Day10.txt").Select(s => s.Select(c => c).ToArray());
         private Chunks chunks;
 
         public long CalculateAnswerPuzzle1()
@@ -43,7 +43,7 @@ namespace AdventCode
                 }
             }
 
-            return missingCharsScores.OrderBy(x => x).ToArray()[(missingCharsScores.Count() - 1) / 2];
+            return missingCharsScores.OrderBy(x => x).ToArray()[(missingCharsScores.Count - 1) / 2];
         }
 
         private ParseResult Parse(IEnumerable<char> line)

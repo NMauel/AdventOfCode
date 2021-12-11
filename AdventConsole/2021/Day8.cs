@@ -6,12 +6,12 @@ namespace AdventCode
 {
     public class Day8 : IPuzzleDay<int>
     {
-        private IEnumerable<string> input = InputReader.ReadLines("Day8.txt");
+        private readonly IEnumerable<string> input = InputReader.ReadLines("Day8.txt");
 
         public int CalculateAnswerPuzzle1() => 
             input.Select(line => line.Split('|', StringSplitOptions.RemoveEmptyEntries))
                 .Select(part => part[1].Split(' ', StringSplitOptions.RemoveEmptyEntries))
-                .Select(output => output.Count(segment => segment.Count() == 2 || segment.Count() == 3 || segment.Count() == 4 || segment.Count() == 7))
+                .Select(output => output.Count(segment => segment.Length == 2 || segment.Length == 3 || segment.Length == 4 || segment.Length == 7))
                 .Sum();
 
         public int CalculateAnswerPuzzle2()
@@ -22,7 +22,7 @@ namespace AdventCode
             foreach(var line in input)
             {
                 var parts = line.Split('|', StringSplitOptions.RemoveEmptyEntries);
-                var learnSegments = parts[0].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(x => x.OrderBy(s => s).ToArray()).OrderBy(x => x.Count());
+                var learnSegments = parts[0].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(x => x.OrderBy(s => s).ToArray()).OrderBy(x => x.Length);
                 var outputSegments = parts[1].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(x => x.OrderBy(s => s).ToArray());
 
                 segment.Learn(learnSegments);
@@ -34,14 +34,14 @@ namespace AdventCode
 
         private class Segment
         {
-            private Dictionary<int, char[]> patterns = new Dictionary<int, char[]>();
+            private readonly Dictionary<int, char[]> patterns = new();
 
             public void Learn(IEnumerable<char[]> input)
             {
                 patterns.Clear();
                 foreach(var pattern in input)
                 {
-                    switch (pattern.Count())
+                    switch (pattern.Length)
                     {
                         case 2:
                             patterns.Add(1, pattern);

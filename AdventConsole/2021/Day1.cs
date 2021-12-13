@@ -5,7 +5,7 @@ namespace AdventCode
 {
     public class Day1 : IPuzzleDay<int>
     {
-        public IEnumerable<int> input = InputReader.ReadLines("Day1").Select(int.Parse);
+        public IEnumerable<int> input = InputReader.ReadLines("Day1.txt").Select(int.Parse);
 
         public int CalculateAnswerPuzzle1()
         {

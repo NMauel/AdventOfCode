@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventCode
 {
@@ -66,6 +67,12 @@ namespace AdventCode
             foreach (var i in items)
                 output *= i;
             return output;
+        }
+
+        public static (T,T) Map<T>(this string input, char split)
+        {
+            var splitResult = input.Split(split, StringSplitOptions.RemoveEmptyEntries);
+            return ((T)Convert.ChangeType(splitResult[0], typeof(T)), (T)Convert.ChangeType(splitResult[1], typeof(T)));
         }
     }
 }

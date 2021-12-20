@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace AdventCode
@@ -69,10 +70,42 @@ namespace AdventCode
             return output;
         }
 
-        public static (T,T) Map<T>(this string input, char split)
+        public static (T, T) Map<T>(this string input, char split) => input.Map<T,T>(split.ToString());
+
+        public static (T, T) Map<T>(this string input, string split) => input.Map<T, T>(split);
+
+        public static (T, Tc) Map<T, Tc>(this string input, string split)
         {
             var splitResult = input.Split(split, StringSplitOptions.RemoveEmptyEntries);
-            return ((T)Convert.ChangeType(splitResult[0], typeof(T)), (T)Convert.ChangeType(splitResult[1], typeof(T)));
+            return ((T)Convert.ChangeType(splitResult[0], typeof(T)), (Tc)Convert.ChangeType(splitResult[1], typeof(Tc)));
+        }
+
+        public static T[,] ToMatrix<T>(this IEnumerable<IEnumerable<T>> field)
+        {
+            int x = 0, y = 0;
+            var matrix = new T[field.Count(), field.First().Count()];
+
+            foreach (var row in field)
+            {
+                foreach (var col in row)
+                    matrix[y,x++] = col;
+                x = 0;
+                y++;
+            }
+
+            return matrix;
+        }
+
+        public static byte[] ConvertHexToBytes(this string hexString)
+        {
+            while (hexString.Length % 2 != 0)
+                hexString = hexString += '0';
+
+            byte[] data = new byte[hexString.Length / 2];
+            for (int index = 0; index < data.Length; index++)
+                data[index] = byte.Parse(hexString.Substring(index * 2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+
+            return data;
         }
     }
 }

@@ -23,7 +23,8 @@ namespace AdventCode
 
             return packet.Value;
         }
-
+        
+#pragma warning disable CS0675 // Bitwise-or operator used on a sign-extended operand
         private Packet DecodePacket(byte[] packetBytes, ref int offset)
         {
             var packet = new Packet();
@@ -61,6 +62,7 @@ namespace AdventCode
 
             return packet;
         }
+#pragma warning restore CS0675 // Bitwise-or operator used on a sign-extended operand
 
         private class Packet
         {

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -15,7 +15,9 @@
     <None Update="2021\Inputs\Day15.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="2021\Inputs\Day14.txt">
+    <None Update="2021\Inputs\Day18.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="2021\Inputs\Day1.txt">

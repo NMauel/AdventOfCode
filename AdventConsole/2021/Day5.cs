@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day5 : IPuzzleDay<int>
+    public class Day5 : IPuzzleDay
     {
-        public int CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
-            var vents = InputReader.ReadLines("Day5.txt").Select(line =>
+            var vents = InputReader.ReadLines().Select(line =>
             {
                 var p = line.Replace(" -> ", ",").Split(',').Select(int.Parse).ToArray();
                 return GenerateVent(p[0], p[1], p[2], p[3], false);
@@ -17,9 +13,9 @@ namespace AdventCode
             return vents.SelectMany(coords => coords).GroupBy(coords => coords.ToString()).Count(groups => groups.Count() > 1);
         }
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
-            var vents = InputReader.ReadLines("Day5.txt").Select(line =>
+            var vents = InputReader.ReadLines().Select(line =>
             {
                 var p = line.Replace(" -> ", ",").Split(',').Select(int.Parse).ToArray();
                 return GenerateVent(p[0], p[1], p[2], p[3]);

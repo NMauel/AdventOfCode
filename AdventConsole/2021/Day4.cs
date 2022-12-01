@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day4 : IPuzzleDay<int>
+    public class Day4 : IPuzzleDay
     {
-        private readonly IEnumerable<int> numbers = InputReader.ReadString("Day4_B.txt").Split(',').Select(int.Parse);
-        private readonly BingoCard[] cards = InputReader.ReadString("Day4_A.txt").Split("\r\n\r\n")
+        private readonly IEnumerable<int> numbers = InputReader.ReadText("Day4_B.txt").Split(',').Select(int.Parse);
+        private readonly BingoCard[] cards = InputReader.ReadText("Day4_A.txt").Split("\r\n\r\n")
             .Select(card => new BingoCard(card.Split("\r\n")
             .Select(line => line.Split(' ', StringSplitOptions.RemoveEmptyEntries)
             .Select(int.Parse)))).ToArray();
 
-        public int CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             //Process all numbers
             foreach (var number in numbers)
@@ -27,7 +23,7 @@ namespace AdventCode
             throw new NotSupportedException("Answer not found!");
         }
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             //Process all numbers
             foreach (var number in numbers)

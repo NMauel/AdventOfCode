@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day8 : IPuzzleDay<int>
+    public class Day8 : IPuzzleDay
     {
-        private readonly IEnumerable<string> input = InputReader.ReadLines("Day8.txt");
+        private readonly IEnumerable<string> input = InputReader.ReadLines();
 
-        public int CalculateAnswerPuzzle1() => 
+        public object CalculateAnswerPuzzle1() => 
             input.Select(line => line.Split('|', StringSplitOptions.RemoveEmptyEntries))
                 .Select(part => part[1].Split(' ', StringSplitOptions.RemoveEmptyEntries))
                 .Select(output => output.Count(segment => segment.Length == 2 || segment.Length == 3 || segment.Length == 4 || segment.Length == 7))
                 .Sum();
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             int totalSum = 0;
             var segment = new Segment();

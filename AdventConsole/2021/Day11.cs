@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day11 : IPuzzleDay<int>
+    public class Day11 : IPuzzleDay
     {
-        private readonly int[][] input = InputReader.ReadLines("Day11.txt").Select(x => x.Select(c => Convert.ToInt32(c)-48).ToArray()).ToArray();
+        private readonly int[][] input = InputReader.ReadLines().Select(x => x.Select(c => Convert.ToInt32(c)-48).ToArray()).ToArray();
         private int steps = 0;
 
-        public int CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             var flashCount = 0;
             while(steps < 100)
@@ -20,7 +17,7 @@ namespace AdventCode
             return flashCount;
         }
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             while (!input.SelectMany(c => c).All(c => c == 0))
                 DoIteration();

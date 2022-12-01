@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day20 : IPuzzleDay<int>
+    public class Day20 : IPuzzleDay
     {
-        private readonly IEnumerable<int> input = InputReader.ReadLines("Day'20.txt").Select(int.Parse);
+        private readonly IEnumerable<int> input = InputReader.ReadLines().Select(int.Parse);
 
-        public int CalculateAnswerPuzzle1() => 0;
+        public object CalculateAnswerPuzzle1() => 0;
 
-        public int CalculateAnswerPuzzle2() => 0;
+        public object CalculateAnswerPuzzle2() => 0;
     }
 }

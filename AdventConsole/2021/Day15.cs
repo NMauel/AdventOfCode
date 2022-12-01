@@ -1,22 +1,19 @@
 ﻿using Priority_Queue;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace AdventCode
+namespace AdventCode.Aoc2021
 {
-    public class Day15 : IPuzzleDay<int>
+    public class Day15 : IPuzzleDay
     {
-        private readonly IEnumerable<IEnumerable<int>> input = InputReader.ReadLines("Day15.txt").Select(line => line.Select(c => Convert.ToInt32(c - 48)));
+        private readonly IEnumerable<IEnumerable<int>> input = InputReader.ReadLines().Select(line => line.Select(c => Convert.ToInt32(c - 48)));
 
-        public int CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             var cave = new Cave(input.ToMatrix());
             var destinationNode = FindSafestPath(cave, cave.Start, cave.End);
             return destinationNode.TentativeRiskValue - cave.Start.RiskValue;
         }
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             var cave = CreateEnlargedCave();
             var destinationNode = FindSafestPath(cave, cave.Start, cave.End);

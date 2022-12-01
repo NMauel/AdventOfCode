@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day14 : IPuzzleDay<long>
+    public class Day14 : IPuzzleDay
     {
-        public static readonly Pair[] rules = InputReader.ReadLines("Day14.txt").Select(line => new Pair(line)).ToArray();
+        public static readonly Pair[] rules = InputReader.ReadLines().Select(line => new Pair(line)).ToArray();
 
-        public long CalculateAnswerPuzzle1() => ReinforcePolymer("ONHOOSCKBSVHBNKFKSBK", 10);
-        public long CalculateAnswerPuzzle2() => ReinforcePolymer("ONHOOSCKBSVHBNKFKSBK", 40);
+        public object CalculateAnswerPuzzle1() => ReinforcePolymer("ONHOOSCKBSVHBNKFKSBK", 10);
+        public object CalculateAnswerPuzzle2() => ReinforcePolymer("ONHOOSCKBSVHBNKFKSBK", 40);
 
         private long ReinforcePolymer(string startTemplate, int steps)
         {

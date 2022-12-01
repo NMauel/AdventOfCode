@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day12 : IPuzzleDay<int>
+    public class Day12 : IPuzzleDay
     {
         private readonly IEnumerable<Cave> input = ReadCaves();
 
-        public int CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             var foundRoutes = new HashSet<string>();
             VisitNextCave(input.First(c => c.Id == "start"), ref foundRoutes, new Stack<Cave>());
@@ -26,7 +22,7 @@ namespace AdventCode
             }
         }
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             var foundRoutes = new HashSet<string>();
             foreach (var smallCaveToVisitTwice in input.Where(c => !c.IsLargeCave && c.Id != "start" && c.Id != "end"))
@@ -48,7 +44,7 @@ namespace AdventCode
         private static IEnumerable<Cave> ReadCaves()
         {
             var caves = new List<Cave>();
-            foreach (var line in InputReader.ReadLines("Day12.txt"))
+            foreach (var line in InputReader.ReadLines())
             {
                 var caveIds = line.Split('-');
                 var caveA = GetCave(caveIds.First());

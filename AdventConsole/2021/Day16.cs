@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day16 : IPuzzleDay<long>
+    public class Day16 : IPuzzleDay
     {
-        private readonly byte[] input = InputReader.ReadString("Day16.txt").ConvertHexToBytes();
+        private readonly byte[] input = InputReader.ReadText().ConvertHexToBytes();
 
-        public long CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             int offset = 0;
             Packet packet = DecodePacket(input, ref offset);
@@ -16,7 +12,7 @@ namespace AdventCode
             return SumOfVersions(packet);
         }
 
-        public long CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             int offset = 0;
             Packet packet = DecodePacket(input, ref offset);

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AdventCode
+﻿namespace AdventCode
 {
     public static class Utils
     {

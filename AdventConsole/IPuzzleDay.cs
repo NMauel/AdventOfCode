@@ -1,8 +1,8 @@
 ﻿namespace AdventCode
 {
-    public interface IPuzzleDay<T>
+    public interface IPuzzleDay
     {
-        public T CalculateAnswerPuzzle1();
-        public T CalculateAnswerPuzzle2();
+        public object CalculateAnswerPuzzle1();
+        public object CalculateAnswerPuzzle2();
     }
 }

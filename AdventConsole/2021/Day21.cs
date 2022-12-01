@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day21 : IPuzzleDay<int>
+    public class Day21 : IPuzzleDay
     {
-        //public int CalculateAnswerPuzzle1() => new Game(10, 9, 1000).Play();
-        public int CalculateAnswerPuzzle1() => new Game(4, 8, 1000).Play();
+        //public object CalculateAnswerPuzzle1() => new Game(10, 9, 1000).Play();
+        public object CalculateAnswerPuzzle1() => new Game(4, 8, 1000).Play();
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             return 0;
         }

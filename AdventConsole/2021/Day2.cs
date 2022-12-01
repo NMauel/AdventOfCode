@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
     public class Day2
     {
-        private static readonly IEnumerable<(string, int)> input = InputReader.ReadLines("Day2.txt")
+        private static readonly IEnumerable<(string, int)> input = InputReader.ReadLines()
             .Select(line => { var splitted = line.Split(' '); return (splitted[0], Convert.ToInt32(splitted[1])); });
 
-        public class Puzzle1 : IPuzzleDay<int>
+        public class Puzzle1 : IPuzzleDay
         {
-            public int CalculateAnswerPuzzle1()
+            public object CalculateAnswerPuzzle1()
             {
                 int length = input.Where(line => line.Item1 == "forward").Sum(line => line.Item2);
                 int depth = input.Where(line => line.Item1 == "down").Sum(line => line.Item2);
@@ -20,7 +16,7 @@ namespace AdventCode
                 return length * depth;
             }
 
-            public int CalculateAnswerPuzzle2()
+            public object CalculateAnswerPuzzle2()
             {
                 int length = 0, depth = 0, aim = 0;
 

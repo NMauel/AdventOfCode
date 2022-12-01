@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day17 : IPuzzleDay<int>
+    public class Day17 : IPuzzleDay
     {
         private TargetArea target = new(111, 161, -154, -101);
 
         private IEnumerable<Path> pathsWithinTarget => GetPossiblePathsWithinTarget();
 
-        public int CalculateAnswerPuzzle1() => pathsWithinTarget.SelectMany(p => p.Points).Max(p => p.Y);
+        public object CalculateAnswerPuzzle1() => pathsWithinTarget.SelectMany(p => p.Points).Max(p => p.Y);
 
-        public int CalculateAnswerPuzzle2() => pathsWithinTarget.Count();
+        public object CalculateAnswerPuzzle2() => pathsWithinTarget.Count();
 
         private IEnumerable<Path> GetPossiblePathsWithinTarget()
         {

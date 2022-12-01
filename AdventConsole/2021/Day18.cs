@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day18 : IPuzzleDay<int>
+    public class Day18 : IPuzzleDay
     {
-        private readonly IEnumerable<string> input = InputReader.ReadLines("Day18.txt");
+        private readonly IEnumerable<string> input = InputReader.ReadLines();
         
-        public int CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             var numbers = ParseInput();
 
@@ -22,7 +18,7 @@ namespace AdventCode
             return totalNumber.Magnitude;
         }
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             var maxMagnitude = 0;
 

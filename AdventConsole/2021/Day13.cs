@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day13 : IPuzzleDay<int>
+    public class Day13 : IPuzzleDay
     {
-        public IEnumerable<(int, int)> input = InputReader.ReadLines("Day13.txt").Select(line => line.Map<int>(',')).ToArray();
+        public IEnumerable<(int, int)> input = InputReader.ReadLines().Select(line => line.Map<int>(',')).ToArray();
 
-        public int CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             var paper = new Paper(input);
 
@@ -17,7 +13,7 @@ namespace AdventCode
             return paper.DotCount;
         }
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             var paper = new Paper(input);
 

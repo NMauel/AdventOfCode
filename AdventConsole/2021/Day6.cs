@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day6 : IPuzzleDay<ulong>
+    public class Day6 : IPuzzleDay
     {
-        private readonly IEnumerable<short> input = InputReader.ReadString("Day6.txt").Split(',').Select(short.Parse);
+        private readonly IEnumerable<short> input = InputReader.ReadText().Split(',').Select(short.Parse);
 
-        public ulong CalculateAnswerPuzzle1() => new FishRegister(input).SleepOvernight(80).Sum();
-        public ulong CalculateAnswerPuzzle2() => new FishRegister(input).SleepOvernight(256).Sum();
+        public object CalculateAnswerPuzzle1() => new FishRegister(input).SleepOvernight(80).Sum();
+        public object CalculateAnswerPuzzle2() => new FishRegister(input).SleepOvernight(256).Sum();
 
         private class FishRegister : ShiftRegister
         {

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day9 : IPuzzleDay<int>
+    public class Day9 : IPuzzleDay
     {
-        private readonly int[][] heightmap = InputReader.ReadLines("Day9.txt")
+        private readonly int[][] heightmap = InputReader.ReadLines()
             .Select(line => line.Select(c => Convert.ToInt32(c) - 48).ToArray()).ToArray();
 
-        public int CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             int valleyCount = 0;
             for(var y = 0; y < heightmap.Length; y++)
@@ -27,7 +23,7 @@ namespace AdventCode
                 && (x == heightmap[y].Length - 1 || heightmap[y][x] < heightmap[y][x + 1]);
         }
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             var clustermap = heightmap.Select(r => r.Select(c => c < 9 ? 0 : -1).ToArray()).ToArray();
 

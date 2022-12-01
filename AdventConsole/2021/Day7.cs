@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
-    public class Day7 : IPuzzleDay<int>
+    public class Day7 : IPuzzleDay
     {
-        private readonly IEnumerable<int> input = InputReader.ReadString("Day7.txt").Split(',').Select(int.Parse);
+        private readonly IEnumerable<int> input = InputReader.ReadText().Split(',').Select(int.Parse);
 
-        public int CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             var leastPossibleFuel = int.MaxValue;
 
@@ -18,7 +14,7 @@ namespace AdventCode
             return leastPossibleFuel;
         }
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             var leastPossibleFuel = int.MaxValue;
 

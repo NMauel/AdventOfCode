@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace AdventCode
 {
@@ -7,9 +6,17 @@ namespace AdventCode
     {
         static void Main(string[] args)
         {
-            var puzzle = new Day19();
+            if(!args.Any() || !DateTime.TryParse(args?.First(), out var date))
+            {
+                date = DateTime.Today;
+            }
 
+            InputReader.Year = date.Year;
+            InputReader.Day = date.Day;
+
+            var puzzle = GetExcercise(date.Year, date.Day);
             var stopwatch = Stopwatch.StartNew();
+
             var answer = puzzle.CalculateAnswerPuzzle1();
             stopwatch.Stop();
 
@@ -21,17 +28,11 @@ namespace AdventCode
 
             Console.WriteLine($"The answer of puzzle2: {answer}, took {stopwatch.ElapsedMilliseconds}ms ({ stopwatch.GetElapsedNanoseconds() } ns)");
         }
-    }
 
-    static class StopwatchExtensions
-    {
-        public static long GetElapsedNanoseconds(this Stopwatch stopwatch)
+        static IPuzzleDay GetExcercise(int year, int day)
         {
-            var ticks = stopwatch.ElapsedTicks;
-            var frequency = Stopwatch.Frequency;
-
-            var nanosecondspertick = (1000L * 1000L * 1000L) / frequency;
-            return ticks * nanosecondspertick;
+            var type = Type.GetType($"AdventCode.Aoc{year}.Day{day}", true);
+            return Activator.CreateInstance(type) as IPuzzleDay;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AdventCode
+﻿namespace AdventCode.Aoc2021
 {
     /* ----------------------- *
      *   Puzzle input Pt. 1    *
@@ -22,11 +22,11 @@
      *                         *
      * ----------------------- */
 
-    public class Day23 : IPuzzleDay<int>
+    public class Day23 : IPuzzleDay
     {
-        public int CalculateAnswerPuzzle1() => 17400;
+        public object CalculateAnswerPuzzle1() => 17400;
 
-        public int CalculateAnswerPuzzle2() => 46120;
+        public object CalculateAnswerPuzzle2() => 46120;
 
         //----------------
         // Solution Pt1.

@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventCode
+﻿namespace AdventCode.Aoc2021.Aoc2021
 {
-    public class Day10 : IPuzzleDay<long>
+    public class Day10 : IPuzzleDay
     {
-        private readonly IEnumerable<char[]> input = InputReader.ReadLines("Day10.txt").Select(s => s.Select(c => c).ToArray());
+        private readonly IEnumerable<char[]> input = InputReader.ReadLines().Select(s => s.Select(c => c).ToArray());
         private Chunks chunks;
 
-        public long CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             chunks = new Chunks {
                 new Chunk('(', ')', 3),
@@ -19,7 +16,7 @@ namespace AdventCode
             return input.Sum(l => Parse(l).InvalidChunk?.Score ?? 0);
         }
 
-        public long CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             chunks = new Chunks {
                 new Chunk('(', ')', 1),

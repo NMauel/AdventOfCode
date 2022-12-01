@@ -1,15 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace AdventCode
+namespace AdventCode.Aoc2021
 {
-    public class Day3 : IPuzzleDay<int>
+    public class Day3 : IPuzzleDay
     {
-        private readonly IEnumerable<BitArray> input = InputReader.ReadLines("Day3.txt")
+        private readonly IEnumerable<BitArray> input = InputReader.ReadLines()
             .Select(line => new BitArray(line.Select(c => c == '1').ToArray()));
 
-        public int CalculateAnswerPuzzle1()
+        public object CalculateAnswerPuzzle1()
         {
             var nrArrays = input.Count();
             var nrBits = input.First().Length;
@@ -25,7 +23,7 @@ namespace AdventCode
             return gamma_rate.AsInt32() * gamma_rate.Not().AsInt32();
         }
 
-        public int CalculateAnswerPuzzle2()
+        public object CalculateAnswerPuzzle2()
         {
             var oxygen_generator_rating = FilterInputData(input.ToArray(), true, true);
             var co2_scrubber_rating = FilterInputData(input.ToArray(), false, false);

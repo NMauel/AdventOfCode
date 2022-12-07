@@ -32,6 +32,11 @@ namespace AdventCode
                 yield return resultSelector(first, first = second, second = e.Current);
         }
 
+        public static IEnumerable<T> SelectManyRecursive<T>(this IEnumerable<T> source, Func<T, IEnumerable<T>> selector)
+        {
+            return !source.Any() ? source : source.Concat(source.SelectMany(i => selector(i) ?? Enumerable.Empty<T>()).SelectManyRecursive(selector));
+        }
+
         public static int AsInt32(this BitArray bits)
         {
             var result = new int[1];

@@ -82,15 +82,17 @@ namespace AdventCode
             return ((T)Convert.ChangeType(splitResult[0], typeof(T)), (Tc)Convert.ChangeType(splitResult[1], typeof(Tc)));
         }
 
-        public static T[,] ToMatrix<T>(this IEnumerable<IEnumerable<T>> field)
+        public static T[,] ToMatrix<T>(this IEnumerable<IEnumerable<T>> field) => ToMatrix(field, (x, y, v) => v);
+
+        public static Tnew[,] ToMatrix<T, Tnew>(this IEnumerable<IEnumerable<T>> field, Func<int, int, T, Tnew> newItem)
         {
             int x = 0, y = 0;
-            var matrix = new T[field.Count(), field.First().Count()];
+            var matrix = new Tnew[field.Count(), field.First().Count()];
 
             foreach (var row in field)
             {
                 foreach (var col in row)
-                    matrix[y,x++] = col;
+                    matrix[y, x] = newItem.Invoke(x++, y, col);
                 x = 0;
                 y++;
             }

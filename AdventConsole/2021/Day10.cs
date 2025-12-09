@@ -1,93 +1,103 @@
-﻿namespace AdventCode.Aoc2021.Aoc2021
+﻿namespace AdventCode.Aoc2021.Aoc2021;
+
+public class Day10 : IPuzzleDay
 {
-    public class Day10 : IPuzzleDay
+    private readonly IEnumerable<char[]> input = InputReader.ReadLines().Select(s => s.Select(c => c).ToArray());
+    private Chunks chunks;
+
+    public object CalculateAnswerPuzzle1()
     {
-        private readonly IEnumerable<char[]> input = InputReader.ReadLines().Select(s => s.Select(c => c).ToArray());
-        private Chunks chunks;
-
-        public object CalculateAnswerPuzzle1()
+        chunks = new()
         {
-            chunks = new Chunks {
-                new Chunk('(', ')', 3),
-                new Chunk('[', ']', 57),
-                new Chunk('{', '}', 1197),
-                new Chunk('<', '>', 25137)};
+            new('(', ')', 3),
+            new('[', ']', 57),
+            new('{', '}', 1197),
+            new('<', '>', 25137)
+        };
 
-            return input.Sum(l => Parse(l).InvalidChunk?.Score ?? 0);
+        return input.Sum(l => Parse(l).InvalidChunk?.Score ?? 0);
+    }
+
+    public object CalculateAnswerPuzzle2()
+    {
+        chunks = new()
+        {
+            new('(', ')', 1),
+            new('[', ']', 2),
+            new('{', '}', 3),
+            new('<', '>', 4)
+        };
+
+        var missingCharsScores = new List<long>();
+        foreach (var line in input)
+        {
+            var result = Parse(line);
+            if (result.MissingChunks != null)
+            {
+                var missingCharsScore = 0L;
+                foreach (var missingChunk in result.MissingChunks)
+                {
+                    missingCharsScore *= 5L;
+                    missingCharsScore += missingChunk.Score;
+                }
+                missingCharsScores.Add(missingCharsScore);
+            }
         }
 
-        public object CalculateAnswerPuzzle2()
-        {
-            chunks = new Chunks {
-                new Chunk('(', ')', 1),
-                new Chunk('[', ']', 2),
-                new Chunk('{', '}', 3),
-                new Chunk('<', '>', 4)};
+        return missingCharsScores.OrderBy(x => x).ToArray()[(missingCharsScores.Count - 1) / 2];
+    }
 
-            var missingCharsScores = new List<long>();
-            foreach (var line in input)
+    private ParseResult Parse(IEnumerable<char> line)
+    {
+        var chunkStack = new Stack<Chunk>();
+        foreach (var c in line)
+        {
+            if (chunks.IsOpenChar(c))
             {
-                var result = Parse(line);
-                if (result.MissingChunks != null)
+                chunkStack.Push(chunks[c]);
+            }
+            else
+            {
+                var lastChunk = chunkStack.Pop();
+                if (lastChunk.Close != c)
                 {
-                    var missingCharsScore = 0L;
-                    foreach(var missingChunk in result.MissingChunks)
+                    return new()
                     {
-                        missingCharsScore *= 5L;
-                        missingCharsScore += missingChunk.Score;
-                    }
-                    missingCharsScores.Add(missingCharsScore);
+                        InvalidChunk = chunks[c]
+                    };
                 }
             }
-
-            return missingCharsScores.OrderBy(x => x).ToArray()[(missingCharsScores.Count - 1) / 2];
         }
-
-        private ParseResult Parse(IEnumerable<char> line)
+        return new()
         {
-            var chunkStack = new Stack<Chunk>();
-            foreach (var c in line)
-            {
-                if (chunks.IsOpenChar(c))
-                {
-                    chunkStack.Push(chunks[c]);
-                }
-                else
-                {
-                    var lastChunk = chunkStack.Pop();
-                    if (lastChunk.Close != c)
-                    {
-                        return new ParseResult { InvalidChunk = chunks[c] };
-                    }
-                }
-            }
-            return new ParseResult { MissingChunks = chunkStack.ToArray() };
-        }
+            MissingChunks = chunkStack.ToArray()
+        };
+    }
 
-        private struct ParseResult
+    private struct ParseResult
+    {
+        public Chunk InvalidChunk { get; set; }
+        public Chunk[] MissingChunks { get; set; }
+    }
+
+    private class Chunks : List<Chunk>
+    {
+        public Chunk this[char c] => this.Single(x => x.Open == c || x.Close == c);
+
+        public bool IsOpenChar(char c) => this.Any(x => x.Open == c);
+    }
+
+    private class Chunk
+    {
+
+        public Chunk(char open, char close, int score)
         {
-            public Chunk InvalidChunk { get; set; }
-            public Chunk[] MissingChunks { get; set; }
+            Open = open;
+            Close = close;
+            Score = score;
         }
-
-        private class Chunks : List<Chunk>
-        {
-            public bool IsOpenChar(char c) => this.Any(x => x.Open == c);
-            public Chunk this[char c] => this.Single(x => x.Open == c || x.Close == c);
-        }
-
-        private class Chunk
-        {
-            public char Open { get; }
-            public char Close { get; }
-            public int Score { get; }
-
-            public Chunk(char open, char close, int score)
-            {
-                Open = open;
-                Close = close;
-                Score = score;
-            }
-        }
+        public char Open { get; }
+        public char Close { get; }
+        public int Score { get; }
     }
 }

@@ -11,7 +11,7 @@ public class Day7 : IPuzzleDay
     private static Item ParseCommandsToFileSystem(IEnumerable<string> commands)
     {
         Item root = new("/", 0);
-        Item currentDir = root;
+        var currentDir = root;
 
         foreach (var command in commands)
         {
@@ -20,7 +20,7 @@ public class Day7 : IPuzzleDay
                 var dirName = command.Replace("$ cd ", string.Empty);
                 if (dirName == "/")
                     currentDir = root;
-                else if(dirName == "..")
+                else if (dirName == "..")
                     currentDir = currentDir.Parent;
                 else
                     currentDir = currentDir.Items.First(x => x.Name == dirName);
@@ -32,13 +32,13 @@ public class Day7 : IPuzzleDay
             else if (command.StartsWith("dir"))
             {
                 var dir = command.Replace("dir ", string.Empty);
-                if(!currentDir.Items.Any(x => x.Name == dir))
-                    currentDir.Items.Add(new Item(dir, 0, currentDir));
+                if (!currentDir.Items.Any(x => x.Name == dir))
+                    currentDir.Items.Add(new(dir, 0, currentDir));
             }
             else
             {
                 var info = command.Split(' ');
-                currentDir.Items.Add(new Item(info[1], int.Parse(info[0]), currentDir));
+                currentDir.Items.Add(new(info[1], int.Parse(info[0]), currentDir));
             }
         }
 
@@ -49,17 +49,17 @@ public class Day7 : IPuzzleDay
     {
         private readonly int _size;
 
+        public Item(string name, int size, Item parent = null)
+        {
+            Name = name;
+            _size = size;
+            Parent = parent ?? this;//No parent is top level root... :-)
+        }
+
         public Item Parent { get; }
         public string Name { get; }
         public int Size => IsDir ? Items.Sum(i => i.Size) : _size;
         public bool IsDir => _size == 0;
         public List<Item> Items { get; } = new();
-
-        public Item(string name, int size, Item parent = null)
-        {
-            Name = name;
-            _size = size;
-            Parent = parent ?? this; //No parent is top level root... :-)
-        }
     }
 }

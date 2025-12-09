@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace AdventCode.Aoc2022;
+﻿namespace AdventCode.Aoc2022;
 
 public class Day10 : IPuzzleDay
 {
@@ -12,12 +10,10 @@ public class Day10 : IPuzzleDay
 
     private class GPU
     {
-        private bool[,] crt = new bool[40, 6];
+        private readonly bool[,] crt = new bool[40, 6];
 
-        protected int registerX = 1;
+        protected readonly int registerX = 1;
         protected int cycleCount = -1;
-
-        public int Output { get; private set; } = 0;
 
         public GPU(IEnumerable<string> commands)
         {
@@ -36,11 +32,13 @@ public class Day10 : IPuzzleDay
             }
         }
 
+        public int Output { get; private set; }
+
         public GPU RenderCRT()
         {
-            for (int y = 0; y < 6; y++)
+            for (var y = 0; y < 6; y++)
             {
-                for (int x = 0; x < 40; x++)
+                for (var x = 0; x < 40; x++)
                 {
                     Console.Write(crt[x, y] ? '#' : '.');
                 }

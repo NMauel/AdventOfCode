@@ -1,157 +1,158 @@
-﻿namespace AdventCode.Aoc2021
+﻿namespace AdventCode.Aoc2021;
+
+public class Day16 : IPuzzleDay
 {
-    public class Day16 : IPuzzleDay
+    private readonly byte[] input = InputReader.ReadText().ConvertHexToBytes();
+
+    public object CalculateAnswerPuzzle1()
     {
-        private readonly byte[] input = InputReader.ReadText().ConvertHexToBytes();
+        var offset = 0;
+        var packet = DecodePacket(input, ref offset);
 
-        public object CalculateAnswerPuzzle1()
+        return SumOfVersions(packet);
+    }
+
+    public object CalculateAnswerPuzzle2()
+    {
+        var offset = 0;
+        var packet = DecodePacket(input, ref offset);
+
+        return packet.Value;
+    }
+
+#pragma warning disable CS0675// Bitwise-or operator used on a sign-extended operand
+    private Packet DecodePacket(byte[] packetBytes, ref int offset)
+    {
+        var packet = new Packet();
+        var decoder = new PacketBytesDecoder(packetBytes, offset);
+        packet.Version = decoder.Take(3);
+        packet.TypeID = decoder.Take(3);
+
+        if (packet.TypeID == 4)
         {
-            int offset = 0;
-            Packet packet = DecodePacket(input, ref offset);
-
-            return SumOfVersions(packet);
-        }
-
-        public object CalculateAnswerPuzzle2()
-        {
-            int offset = 0;
-            Packet packet = DecodePacket(input, ref offset);
-
-            return packet.Value;
-        }
-        
-#pragma warning disable CS0675 // Bitwise-or operator used on a sign-extended operand
-        private Packet DecodePacket(byte[] packetBytes, ref int offset)
-        {
-            var packet = new Packet();
-            var decoder = new PacketBytesDecoder(packetBytes, offset);
-            packet.Version = decoder.Take(3);
-            packet.TypeID = decoder.Take(3);
-
-            if (packet.TypeID == 4)
+            var hasValue = true;
+            while (hasValue)
             {
-                bool hasValue = true;
-                while (hasValue)
-                {
-                    hasValue = decoder.Take(1) == 1;
-                    packet.Value = (packet.Value << 4 ) | decoder.Take(4);
-                }
+                hasValue = decoder.Take(1) == 1;
+                packet.Value = packet.Value << 4 | decoder.Take(4);
+            }
+            offset = decoder.Offset;
+        }
+        else
+        {
+            if (decoder.Take(1) == 1)
+            {
+                var packetCnt = decoder.Take(11);
                 offset = decoder.Offset;
+                for (var p = 0; p < packetCnt; p++)
+                {
+                    packet.Subpackets.Add(DecodePacket(packetBytes, ref offset));
+                }
             }
             else
             {
-                if(decoder.Take(1) == 1)
-                {
-                    var packetCnt = decoder.Take(11);
-                    offset = decoder.Offset;
-                    for (int p = 0; p < packetCnt; p++)
-                        packet.Subpackets.Add(DecodePacket(packetBytes, ref offset));
-                }
-                else
-                {
-                    var subpacketsLength = decoder.Take(15);
-                    offset = decoder.Offset;
-                    while (offset - decoder.Offset < subpacketsLength)
-                        packet.Subpackets.Add(DecodePacket(packetBytes, ref offset));
-                }
+                var subpacketsLength = decoder.Take(15);
+                offset = decoder.Offset;
+                while (offset - decoder.Offset < subpacketsLength)
+                    packet.Subpackets.Add(DecodePacket(packetBytes, ref offset));
             }
-
-            return packet;
         }
-#pragma warning restore CS0675 // Bitwise-or operator used on a sign-extended operand
 
-        private class Packet
+        return packet;
+    }
+#pragma warning restore CS0675// Bitwise-or operator used on a sign-extended operand
+
+    private long SumOfVersions(Packet packet) => packet.Version + packet.Subpackets.Sum(packet => SumOfVersions(packet));
+
+    private class Packet
+    {
+        private long _value;
+
+        public int Version { get; set; }
+        public int TypeID { get; set; }
+
+        public List<Packet> Subpackets { get; } = new();
+
+        public long Value
         {
-            private long _value;
-
-            public int Version { get; set; }
-            public int TypeID { get; set; }
-
-            public List<Packet> Subpackets { get; } = new();
-
-            public long Value
+            get
             {
-                get
+                if (Subpackets.Any())
                 {
-                    if (Subpackets.Any())
+                    switch (TypeID)
                     {
-                        switch (TypeID)
-                        {
-                            case 0:
-                                return Subpackets.Sum(packet => packet.Value);
-                            case 1:
-                                return Subpackets.Select(packet => packet.Value).Aggregate(1L, (x, y) => x * y);
-                            case 2:
-                                return Subpackets.Min(packet => packet.Value);
-                            case 3:
-                                return Subpackets.Max(packet => packet.Value);
-                            case 4:
-                                return _value;
-                            case 5:
-                                return Subpackets.First().Value > Subpackets.Last().Value ? 1 : 0;
-                            case 6:
-                                return Subpackets.First().Value < Subpackets.Last().Value ? 1 : 0;
-                            case 7:
-                                return Subpackets.First().Value == Subpackets.Last().Value ? 1 : 0;
-                        }
+                        case 0:
+                            return Subpackets.Sum(packet => packet.Value);
+                        case 1:
+                            return Subpackets.Select(packet => packet.Value).Aggregate(1L, func: (x, y) => x * y);
+                        case 2:
+                            return Subpackets.Min(packet => packet.Value);
+                        case 3:
+                            return Subpackets.Max(packet => packet.Value);
+                        case 4:
+                            return _value;
+                        case 5:
+                            return Subpackets.First().Value > Subpackets.Last().Value ? 1 : 0;
+                        case 6:
+                            return Subpackets.First().Value < Subpackets.Last().Value ? 1 : 0;
+                        case 7:
+                            return Subpackets.First().Value == Subpackets.Last().Value ? 1 : 0;
                     }
-                    if (TypeID != 4)
-                        throw new AccessViolationException("Code should never reach this place!; Wrong puzzle input provided!");
-                    return _value;
                 }
-                set => _value = value;
+                if (TypeID != 4)
+                    throw new AccessViolationException("Code should never reach this place!; Wrong puzzle input provided!");
+                return _value;
             }
+            set => _value = value;
         }
+    }
 
-        private class PacketBytesDecoder
+    private class PacketBytesDecoder
+    {
+        private readonly ReadOnlyMemory<byte> packetMemory;
+
+        public PacketBytesDecoder(byte[] packetBytes, int offset)
         {
-            private readonly ReadOnlyMemory<byte> packetMemory;
-            //private readonly int packetLength;
+            packetMemory = new(packetBytes);
+            //packetLength = packetMemory.Length * 8;
+            Offset = offset;
+        }
+        //private readonly int packetLength;
 
-            public int Offset { get; private set; }
+        public int Offset { get; private set; }
 
-            public PacketBytesDecoder(byte[] packetBytes, int offset)
+        public int Take(int nrOfBits)
+        {
+            var span = packetMemory.Span.Slice(Offset / 8);
+            var shift = Offset % 8;
+            var index = 0;
+            var result = 0;
+            var size = nrOfBits;
+            while (size > 0)
             {
-                packetMemory = new ReadOnlyMemory<byte>(packetBytes);
-                //packetLength = packetMemory.Length * 8;
-                Offset = offset;
-            }
+                var chunk = span[index];
+                var chunkSize = 8;
 
-            public int Take(int nrOfBits)
-            {
-                var span = packetMemory.Span.Slice(Offset / 8);
-                var shift = Offset % 8;
-                var index = 0;
-                int result = 0;
-                var size = nrOfBits;
-                while (size > 0)
+                if (shift > 0)
                 {
-                    var chunk = span[index];
-                    var chunkSize = 8;
-
-                    if (shift > 0)
-                    {
-                        chunk = (byte)((byte)(chunk << shift) >> shift);
-                        chunkSize -= shift;
-                    }
-
-                    if (size < (8 - shift))
-                    {
-                        chunk >>= (8 - shift - size);
-                        chunkSize = size;
-                    }
-
-                    result = (result << chunkSize) | chunk;
-                    size -= chunkSize;
-                    shift = 0;
-                    ++index;
+                    chunk = (byte)((byte)(chunk << shift) >> shift);
+                    chunkSize -= shift;
                 }
 
-                Offset += nrOfBits;
-                return result;
-            }
-        }
+                if (size < 8 - shift)
+                {
+                    chunk >>= 8 - shift - size;
+                    chunkSize = size;
+                }
 
-        private long SumOfVersions(Packet packet) => packet.Version + packet.Subpackets.Sum(packet => SumOfVersions(packet));
+                result = result << chunkSize | chunk;
+                size -= chunkSize;
+                shift = 0;
+                ++index;
+            }
+
+            Offset += nrOfBits;
+            return result;
+        }
     }
 }

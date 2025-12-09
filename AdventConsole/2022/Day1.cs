@@ -11,7 +11,10 @@ public class Day1 : IPuzzleDay
     private IEnumerable<int> SumCaloriesPerElve()
     {
         var index = 0;
-        while(index < calories.Count())
-            yield return calories.Skip(index).TakeWhile(c => { index++; return !string.IsNullOrWhiteSpace(c); }).Select(int.Parse).Sum(); 
+        while (index < calories.Count())
+            yield return calories.Skip(index).TakeWhile(c => {
+                index++;
+                return !string.IsNullOrWhiteSpace(c);
+            }).Select(int.Parse).Sum();
     }
 }

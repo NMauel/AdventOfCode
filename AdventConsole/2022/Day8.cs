@@ -6,7 +6,7 @@ public class Day8 : IPuzzleDay
 
     public object CalculateAnswerPuzzle1()
     {
-        var visibilityMap = new bool[treeMap.GetLength(0),treeMap.GetLength(1)];
+        var visibilityMap = new bool[treeMap.GetLength(0), treeMap.GetLength(1)];
 
         //horizontal sweep
         for (var x = 0; x < treeMap.GetLength(0); x++)
@@ -56,7 +56,7 @@ public class Day8 : IPuzzleDay
                 }
             }
         }
-        return visibilityMap.To1DArray().Count(x => x == true);
+        return visibilityMap.To1DArray().Count(x => x);
     }
 
     public object CalculateAnswerPuzzle2()
@@ -84,7 +84,7 @@ public class Day8 : IPuzzleDay
         var scoreUp = 0;
         var scoreDown = 0;
 
-        int a = x - 1;
+        var a = x - 1;
         while (a >= 0)
         {
             scoreLeft++;

@@ -20,14 +20,14 @@ public static class Day1Extensions
         foreach (var calibrationValue in calibrationValues)
         {
             yield return calibrationValue.Replace("one", "one1one")
-                                         .Replace("two", "two2two")
-                                         .Replace("three", "three3three")
-                                         .Replace("four", "four4four")
-                                         .Replace("five", "five5five")
-                                         .Replace("six", "six6six")
-                                         .Replace("seven", "seven7seven")
-                                         .Replace("eight", "eight8eight")
-                                         .Replace("nine", "nine9nine");
+                .Replace("two", "two2two")
+                .Replace("three", "three3three")
+                .Replace("four", "four4four")
+                .Replace("five", "five5five")
+                .Replace("six", "six6six")
+                .Replace("seven", "seven7seven")
+                .Replace("eight", "eight8eight")
+                .Replace("nine", "nine9nine");
         }
     }
 }

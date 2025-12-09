@@ -1,21 +1,24 @@
-﻿using System;
-
-namespace AdventCode.Aoc2023;
+﻿namespace AdventCode.Aoc2023;
 
 public class Day5 : IPuzzleDay
 {
     private readonly Maps maps = InputReader.ReadLines().ParseToMaps();
 
-    private readonly long[] seeds = [1263068588, 44436703, 1116624626, 2393304, 2098781025, 
-                                     128251971, 2946842531, 102775703, 2361566863, 262106125,
-                                     221434439, 24088025, 1368516778, 69719147, 3326254382,
-                                     101094138, 1576631370, 357411492, 3713929839, 154258863];
+    private readonly long[] seeds =
+    [
+        1263068588, 44436703, 1116624626, 2393304, 2098781025,
+        128251971, 2946842531, 102775703, 2361566863, 262106125,
+        221434439, 24088025, 1368516778, 69719147, 3326254382,
+        101094138, 1576631370, 357411492, 3713929839, 154258863
+    ];
 
     public object CalculateAnswerPuzzle1()
     {
-        long lowestLocation = long.MaxValue;
+        var lowestLocation = long.MaxValue;
         foreach (var seed in seeds)
+        {
             lowestLocation = Math.Min(maps.GetSeed(seed), lowestLocation);
+        }
 
         return lowestLocation;
     }
@@ -23,10 +26,12 @@ public class Day5 : IPuzzleDay
     public object CalculateAnswerPuzzle2()
     {
         //Not the fastest way to find the solution but it works (it took 20 minutes and 39 seconds... :-D)
-        long lowestLocation = long.MaxValue;
-        for (int i = 0; i < seeds.Length; i += 2)
-            for(long seed = seeds[i]; seed < seeds[i] + seeds[i + 1]; seed++)
-                lowestLocation = Math.Min(maps.GetSeed(seed), lowestLocation);
+        var lowestLocation = long.MaxValue;
+        for (var i = 0; i < seeds.Length; i += 2)
+        for (var seed = seeds[i]; seed < seeds[i] + seeds[i + 1]; seed++)
+        {
+            lowestLocation = Math.Min(maps.GetSeed(seed), lowestLocation);
+        }
 
         return lowestLocation;
     }
@@ -41,7 +46,9 @@ public class Maps
     public long GetSeed(long index)
     {
         foreach (var map in maps)
+        {
             index = map[index];
+        }
         return index;
     }
 }
@@ -55,13 +62,15 @@ public class Map
         get
         {
             foreach (var rule in rules)
-                if (rule.TryGetDestination(index, out long destination))
+            {
+                if (rule.TryGetDestination(index, out var destination))
                     return destination;
+            }
             return index;
         }
     }
 
-    public void AddRule(long destination, long source, long length) => rules.Add(new MapRule(destination, source, length));
+    public void AddRule(long destination, long source, long length) => rules.Add(new(destination, source, length));
 }
 
 public class MapRule(long DestinationRangeStart, long SourceRangeStart, long RangeLength)
@@ -86,9 +95,9 @@ public static class Day5Extensions
         Maps maps = new();
         Map map = null;
 
-        foreach(var line in lines)
+        foreach (var line in lines)
         {
-            map ??= new Map();
+            map ??= new();
             if (line.Length == 0)
             {
                 maps.AddMap(map);

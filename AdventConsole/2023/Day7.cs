@@ -11,11 +11,13 @@ public class Day7 : IPuzzleDay
 
     private static int CalculateTotalWinnings<T>(SortedList<T, int> hands) where T : CamelCardHand
     {
-        int sum = 0;
-        int multiplier = 1;
+        var sum = 0;
+        var multiplier = 1;
 
-        foreach(var card in hands)
+        foreach (var card in hands)
+        {
             sum += card.Value * multiplier++;
+        }
 
         return sum;
     }
@@ -23,23 +25,60 @@ public class Day7 : IPuzzleDay
 
 public class CamelCardHand : IComparable<CamelCardHand>
 {
-    public int[] Hand { get; }
-    public int HandType { get; protected set; }
 
     public CamelCardHand(char[] hand)
     {
         Hand = hand.Select(card => card <= '9' ? card - 48 : SymbolsLookup[card]).ToArray();
         CalculateHandType();
     }
+    public int[] Hand { get; }
+    public int HandType { get; protected set; }
+
+    protected virtual Dictionary<char, int> SymbolsLookup { get; } = new()
+    {
+        {
+            'T', 10
+        },
+        {
+            'J', 11
+        },
+        {
+            'Q', 12
+        },
+        {
+            'K', 13
+        },
+        {
+            'A', 14
+        }
+    };
+
+    public int CompareTo(CamelCardHand otherCardHand)
+    {
+        if (Hand == null || otherCardHand.Hand == null)
+            return 0;
+
+        if (HandType == otherCardHand.HandType)
+        {
+            for (var i = 0; i <= 4; i++)
+            {
+                if (Hand[i] == otherCardHand.Hand[i])
+                    continue;
+                return Hand[i] - otherCardHand.Hand[i];
+            }
+        }
+        return HandType - otherCardHand.HandType;
+    }
 
     protected virtual void CalculateHandType()
     {
         var type = (from c in Hand
-                    orderby c descending
-                    group c by c into t
-                    let count = t.Count()
-                    orderby count descending
-                    select count).ToArray();
+            orderby c descending
+            group c by c
+            into t
+            let count = t.Count()
+            orderby count descending
+            select count).ToArray();
 
         if (type[0] == 5)
             HandType = 6;
@@ -54,30 +93,30 @@ public class CamelCardHand : IComparable<CamelCardHand>
         else if (type[0] == 2)
             HandType = 1;
     }
-
-    public int CompareTo(CamelCardHand otherCardHand)
-    {
-        if (Hand == null || otherCardHand.Hand == null)
-            return 0;
-
-        if(HandType == otherCardHand.HandType)
-        {
-            for (int i = 0; i <= 4; i++)
-            {
-                if (Hand[i] == otherCardHand.Hand[i])
-                    continue;
-                return Hand[i] - otherCardHand.Hand[i];
-            }
-        }
-        return HandType - otherCardHand.HandType;
-    }
-
-    protected virtual Dictionary<char, int> SymbolsLookup { get; } = new() { { 'T', 10 }, { 'J', 11 }, { 'Q', 12 }, { 'K', 13 }, { 'A', 14 } };
 }
 
 public class CamelCardHandWithJokers : CamelCardHand
 {
-    public CamelCardHandWithJokers(char[] hand) : base(hand) { }
+    public CamelCardHandWithJokers(char[] hand) : base(hand) {}
+
+    protected override Dictionary<char, int> SymbolsLookup { get; } = new()
+    {
+        {
+            'T', 10
+        },
+        {
+            'J', 1
+        },
+        {
+            'Q', 12
+        },
+        {
+            'K', 13
+        },
+        {
+            'A', 14
+        }
+    };
 
     protected override void CalculateHandType()
     {
@@ -85,11 +124,12 @@ public class CamelCardHandWithJokers : CamelCardHand
         var rest = Hand.Where(x => x != 1);
 
         var type = (from c in rest
-                    orderby c descending
-                    group c by c into t
-                    let count = t.Count()
-                    orderby count descending
-                    select count).ToArray();
+            orderby c descending
+            group c by c
+            into t
+            let count = t.Count()
+            orderby count descending
+            select count).ToArray();
 
         if (jokers == 5)
             type = [5];
@@ -109,8 +149,6 @@ public class CamelCardHandWithJokers : CamelCardHand
         else if (type[0] == 2)
             HandType = 1;
     }
-
-    protected override Dictionary<char, int> SymbolsLookup { get; } = new() { { 'T', 10 }, { 'J', 1 }, { 'Q', 12 }, { 'K', 13 }, { 'A', 14 } };
 }
 
 public static class Day7Extensions

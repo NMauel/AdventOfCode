@@ -1,6 +1,4 @@
-﻿using static AdventCode.Aoc2022.Day9;
-
-namespace AdventCode.Aoc2022;
+﻿namespace AdventCode.Aoc2022;
 
 public class Day9 : IPuzzleDay
 {
@@ -12,14 +10,14 @@ public class Day9 : IPuzzleDay
 
     private class Rope
     {
-        private (int x, int y)[] knots;
-        public List<(int x, int y)> TailHistory { get; } = new();
+        private readonly (int x, int y)[] knots;
 
         public Rope(int length)
         {
             knots = Enumerable.Repeat((0, 0), length).ToArray();
             TailHistory.Add((0, 0));
         }
+        public List<(int x, int y)> TailHistory { get; } = new();
 
         public Rope Transform(IEnumerable<(char Direction, int Distance)> moves)
         {
@@ -36,7 +34,9 @@ public class Day9 : IPuzzleDay
                     }
 
                     for (var p = 1; p < knots.Length; p++)
+                    {
                         Follow(p);
+                    }
 
                     if (TailHistory.Last() != knots.Last())
                         TailHistory.Add(knots.Last());
@@ -50,36 +50,36 @@ public class Day9 : IPuzzleDay
             var horizontalDistance = knots[knotIndex - 1].x - knots[knotIndex].x;
             var verticalDistance = knots[knotIndex - 1].y - knots[knotIndex].y;
 
-            if (horizontalDistance > 1) // R
+            if (horizontalDistance > 1)// R
             {
                 knots[knotIndex].x++;
-                if (verticalDistance > 0) // U
+                if (verticalDistance > 0)// U
                     knots[knotIndex].y++;
-                if (verticalDistance < 0) // D
+                if (verticalDistance < 0)// D
                     knots[knotIndex].y--;
             }
-            else if (horizontalDistance < -1) // L
+            else if (horizontalDistance < -1)// L
             {
                 knots[knotIndex].x--;
-                if (verticalDistance > 0) // U
+                if (verticalDistance > 0)// U
                     knots[knotIndex].y++;
-                if (verticalDistance < 0) // D
+                if (verticalDistance < 0)// D
                     knots[knotIndex].y--;
             }
-            else if (verticalDistance > 1) //U
+            else if (verticalDistance > 1)//U
             {
                 knots[knotIndex].y++;
-                if (horizontalDistance > 0) // R
+                if (horizontalDistance > 0)// R
                     knots[knotIndex].x++;
-                if (horizontalDistance < 0) // L
+                if (horizontalDistance < 0)// L
                     knots[knotIndex].x--;
             }
-            else if (verticalDistance < -1) // D
+            else if (verticalDistance < -1)// D
             {
                 knots[knotIndex].y--;
-                if (horizontalDistance > 0) // R
+                if (horizontalDistance > 0)// R
                     knots[knotIndex].x++;
-                if (horizontalDistance < 0) // L
+                if (horizontalDistance < 0)// L
                     knots[knotIndex].x--;
             }
         }

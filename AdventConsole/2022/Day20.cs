@@ -29,22 +29,25 @@ public class Day20 : IPuzzleDay
 
     public class MagicList : List<(Guid Id, long Value)>
     {
-        public MagicList(IEnumerable<(Guid, long)> values) => this.AddRange(values);
+        public MagicList(IEnumerable<(Guid, long)> values)
+        {
+            AddRange(values);
+        }
 
-        public new long this[int index] => base[index % base.Count].Value;
+        public new long this[int index] => base[index % Count].Value;
 
         public void Mix(Queue<(Guid Id, long Value)> itemsToMix)
         {
             while (itemsToMix.Any())
             {
                 var item = itemsToMix.Dequeue();
-                var newIndex = (int)((base.IndexOf(item) + item.Value) % (this.Count - 1));
+                var newIndex = (int)((IndexOf(item) + item.Value) % (Count - 1));
 
                 if (newIndex < 1)
-                    newIndex = this.Count - 1 + newIndex;
+                    newIndex = Count - 1 + newIndex;
 
-                base.Remove(item);
-                base.Insert(newIndex, item);
+                Remove(item);
+                Insert(newIndex, item);
             }
         }
 

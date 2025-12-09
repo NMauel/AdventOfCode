@@ -11,8 +11,10 @@ public class Day6 : IPuzzleDay
     private static int FindFirstOccurrenceOfDistinctChars(string datastream, int length)
     {
         for (var i = 0; i < datastream.Count() - length; i++)
+        {
             if (datastream.Skip(i).Take(length).Distinct().Count() == length)
                 return i + length;
+        }
         return 0;
     }
 }

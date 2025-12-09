@@ -1,6 +1,4 @@
-﻿using static AdventCode.Aoc2021.Day25;
-
-namespace AdventCode.Aoc2022;
+﻿namespace AdventCode.Aoc2022;
 
 public class Day12 : IPuzzleDay
 {
@@ -78,10 +76,6 @@ public class Day12 : IPuzzleDay
 
     private class Location
     {
-        public int X { get; }
-        public int Y { get; }
-        public char Height { get; }
-        public int Steps { get; set; } = -1;
 
         public Location(int x, int y, char height)
         {
@@ -89,5 +83,9 @@ public class Day12 : IPuzzleDay
             Y = y;
             Height = height;
         }
+        public int X { get; }
+        public int Y { get; }
+        public char Height { get; }
+        public int Steps { get; set; } = -1;
     }
 }
